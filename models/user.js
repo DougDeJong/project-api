@@ -6,7 +6,7 @@ const userSchema = new Schema({
   username: String,
   password: String,
   posts: [{type: Schema.Types.ObjectId, ref: 'Post'}],
-  comments: Array,
+  comments: [{type: Schema.Types.ObjectId, ref: 'userComment'}],
 
 });
 

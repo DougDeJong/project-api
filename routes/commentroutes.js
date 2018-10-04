@@ -21,18 +21,18 @@ router.get('/comments', (req, res, next) => {
 router.post('/comments', (req, res, next)=>{
  
     userComment.create({
-      title: req.body.title,
-      description: req.body.description,
-      owner: req.user._id,
-      tasks: []
+      content: req.body.content,
+      author: req.user._id,
+      post: req.body.post._id
     })
-      .then(response => {
-        res.json(response);
+    .then(response => {Post.findByIdAndUpdate(req.body.post._id, {$push:{ comments: response._id }})
+    .then(theResponse => {
+        res.json(theResponse);
       })
       .catch(err => {
         res.json(err);
       })
-  });
+  })});
 
 
   // Need to add a findbyID and update function for the particular post that is being updated!!!!!!!!

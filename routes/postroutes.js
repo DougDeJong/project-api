@@ -22,16 +22,17 @@ router.post('/posts', (req, res, next)=>{
     Post.create({
       title: req.body.title,
       content: req.body.content,
-      owner: req.user._id,
-      tasks: []
+      author: req.user._id,
+      comments: []
     })
-      .then(response => {
-        res.json(response);
+      .then(response => {User.findByIdAndUpdate(req.user._id, {$push:{ posts: response._id }})
+      .then(theResponse => {
+          res.json(theResponse);
       })
       .catch(err => {
         res.json(err);
       })
-  });
+  })})
 
 
 
