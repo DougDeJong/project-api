@@ -1,9 +1,9 @@
 // routes/auth-routes.js
 
 const express    = require('express');
-const authRoutes = express.Router();
 
 const passport   = require('passport');
+const authRoutes = express.Router();
 const bcrypt     = require('bcryptjs');
 
 // require the user model !!!!
