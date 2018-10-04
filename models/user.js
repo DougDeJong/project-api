@@ -5,7 +5,7 @@ const Schema   = mongoose.Schema;
 const userSchema = new Schema({
   username: String,
   password: String,
-  posts: Array,
+  posts: [{type: Schema.Types.ObjectId, ref: 'Post'}],
   comments: Array,
 
 });

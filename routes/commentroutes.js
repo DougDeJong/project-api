@@ -3,25 +3,26 @@ const express = require('express');
 const router  = express.Router();
 const mongoose = require('mongoose');
 const Post = require('../models/Post');
+const userComments = require('../models/userComment');
 
-// GET route => to get all the projects
-router.get('/posts', (req, res, next) => {
-  Post.find().populate('')
-    .then(allThePosts => {
-      res.json(allThePosts);
+// to get all the comments 
+
+router.get('/comments', (req, res, next) => {
+  userComments.find().populate('posts')
+    .then(allTheComments => {
+      res.json(allTheComments);
     })
     .catch(err => {
       res.json(err);
     })
 });
 
-
-// POST route => to create a new project
-router.post('/posts', (req, res, next)=>{
+// create a new comment
+router.post('/comments', (req, res, next)=>{
  
-    Post.create({
+    userComment.create({
       title: req.body.title,
-      content: req.body.content,
+      description: req.body.description,
       owner: req.user._id,
       tasks: []
     })
@@ -34,23 +35,20 @@ router.post('/posts', (req, res, next)=>{
   });
 
 
-
-
-  // October 3rd - up to this point right now
+  // Need to add a findbyID and update function for the particular post that is being updated!!!!!!!!
 
 
 
 
 
-  // GET route => to get a specific project/detailed view
-  router.get('/posts/:id', (req, res, next)=>{
+  router.get('/comments/:id', (req, res, next)=>{
 
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
     }
 // This funciton below may or may not work as it was written before the comment model 
-    Post.findById(req.params.id).populate('comments')
+    userComment.findById(req.params.id).populate('posts')
       .then(response => {
         res.json(response);
       })
@@ -61,19 +59,18 @@ router.post('/posts', (req, res, next)=>{
 
 
 
+// edit comment route
 
-
-// PUT route => to update a specific project
-router.put('/posts/:id', (req, res, next)=>{
+router.put('/comments/:id', (req, res, next)=>{
 
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
     }
   
-    Posts.findByIdAndUpdate(req.params.id, req.body)
+    userComments.findByIdAndUpdate(req.params.id, req.body)
       .then(() => {
-        res.json({message: `Post with ${req.params.id} is updated successfully.`});
+        res.json({message: `Comment with ${req.params.id} is updated successfully.`});
       })
       .catch(err => {
         res.json(err);
@@ -82,11 +79,8 @@ router.put('/posts/:id', (req, res, next)=>{
 
 
 
-
-  
-  
-  // DELETE route => to delete a specific project
-  router.delete('/posts/:id', (req, res, next)=>{
+// Delete a comment
+  router.delete('/comments/:id', (req, res, next)=>{
   
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
