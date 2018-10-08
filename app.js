@@ -59,7 +59,11 @@ app.locals.title = 'Express - Generated with IronGenerator';
 app.use(session({
   secret:"some secret goes here",
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    secure: false, 
+    maxAge: 864000000 
+}
 }));
 
 app.use(passport.initialize());
