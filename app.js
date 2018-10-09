@@ -77,6 +77,7 @@ app.use(cors({
 
 
 
+
 const index = require('./routes/index');
 app.use('/', index);
 
@@ -89,5 +90,8 @@ app.use('/api', postRoutes);
 const commentRoutes = require('./routes/commentroutes');
 app.use('/api', commentRoutes)
 
+app.use((req, res, next) => {
+  res.sendFile(__dirname + "/public/index.html");
+});
 
 module.exports = app;
