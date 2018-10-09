@@ -9,6 +9,8 @@ const User = require('./User');
 const postSchema = new Schema({
   title: String,
   content: String,
+  blerb: String,
+  contentState: Object,
   date: Date,
   comments: [{type: Schema.Types.ObjectId, ref: 'userComment'}],
   author: {type: Schema.Types.ObjectId, ref: 'User'}

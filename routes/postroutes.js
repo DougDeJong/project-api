@@ -3,6 +3,7 @@ const express = require('express');
 const router  = express.Router();
 const mongoose = require('mongoose');
 const Post = require('../models/Post');
+const User = require('../models/User');
 
 // GET route => to get all the projects
 router.get('/posts', (req, res, next) => {
@@ -18,14 +19,17 @@ router.get('/posts', (req, res, next) => {
 
 // POST route => to create a new project
 router.post('/posts', (req, res, next)=>{
+  const userId = (req.body.user._id)
  
     Post.create({
       title: req.body.title,
+      blerb: req.body.blerb,
+      contentState: req.body.contentState,
       content: req.body.content,
-      author: req.user._id,
+      author: userId,
       comments: []
     })
-      .then(response => {User.findByIdAndUpdate(req.user._id, {$push:{ posts: response._id }})
+      .then(response => {User.findByIdAndUpdate(userId, {$push:{ posts: response._id }})
       .then(theResponse => {
           res.json(theResponse);
       })
