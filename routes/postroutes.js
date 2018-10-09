@@ -2,8 +2,8 @@
 const express = require('express');
 const router  = express.Router();
 const mongoose = require('mongoose');
-const Post = require('../models/Post');
-const User = require('../models/User');
+const Post = require('../models/post');
+const User = require('../models/user');
 
 // GET route => to get all the projects
 router.get('/posts', (req, res, next) => {

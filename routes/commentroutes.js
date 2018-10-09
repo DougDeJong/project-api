@@ -2,7 +2,7 @@
 const express = require('express');
 const router  = express.Router();
 const mongoose = require('mongoose');
-const Post = require('../models/Post');
+const Post = require('../models/post');
 const userComments = require('../models/userComment');
 
 // to get all the comments 
