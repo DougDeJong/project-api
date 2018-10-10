@@ -7,29 +7,30 @@ const User = require('../models/user');
 
 // GET route => to get all the projects
 router.get('/posts', (req, res, next) => {
-  Post.find().populate('')
-    .then(allThePosts => {
-      res.json(allThePosts);
-    })
-    .catch(err => {
-      res.json(err);
-    })
+  Post.
+  find()
+  .populate('author')
+  .then(allThePosts => {
+    res.json(allThePosts);
+  })
+  .catch(err => {
+    res.json(err);
+  })
 });
 
 
 // POST route => to create a new project
 router.post('/posts', (req, res, next)=>{
-  const userId = (req.body.user._id)
  
     Post.create({
       title: req.body.title,
       blerb: req.body.blerb,
       contentState: req.body.contentState,
       content: req.body.content,
-      author: userId,
+      author: req.user._id,
       comments: []
     })
-      .then(response => {User.findByIdAndUpdate(userId, {$push:{ posts: response._id }})
+      .then(response => {User.findByIdAndUpdate(req.user._id, {$push:{ posts: response._id }})
       .then(theResponse => {
           res.json(theResponse);
       })

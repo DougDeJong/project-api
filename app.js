@@ -69,10 +69,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// cors setup
+
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3000/', 'http://t1d3.herokuapp.com']
+  origin: ['http://localhost:3000', 'http://t1d3.herokuapp.com']
 }));
 
 
