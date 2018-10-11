@@ -56,7 +56,7 @@ router.post('/posts', (req, res, next)=>{
       return;
     }
 // This funciton below may or may not work as it was written before the comment model 
-    Post.findById(req.params.id).populate('comments')
+    Post.findById(req.params.id).populate('comments').populate('author')
       .then(response => {
         res.json(response);
       })
