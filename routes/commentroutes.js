@@ -9,7 +9,7 @@ const User = require('../models/user')
 // to get all the comments 
 
 router.get('/comments', (req, res, next) => {
-  userComments.find().populate('posts')
+  userComments.find().populate('post').populate('author')
     .then(allTheComments => {
       res.json(allTheComments);
     })
@@ -108,9 +108,9 @@ router.put('/comments/:id', (req, res, next)=>{
       return;
     }
   
-    Post.findByIdAndRemove(req.params.id)
+    userComments.findByIdAndRemove(req.params.id)
       .then(() => {
-        res.json({message: `Post with ${req.params.id} is removed successfully.`});
+        res.json({message: `Comment with ${req.params.id} is removed successfully.`});
       })
       .catch( err => {
         res.json(err);
