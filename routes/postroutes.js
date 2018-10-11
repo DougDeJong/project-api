@@ -77,7 +77,7 @@ router.put('/posts/:id', (req, res, next)=>{
       return;
     }
   
-    Posts.findByIdAndUpdate(req.params.id, req.body)
+    Post.findByIdAndUpdate(req.params.id, req.body)
       .then(() => {
         res.json({message: `Post with ${req.params.id} is updated successfully.`});
       })
