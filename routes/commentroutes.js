@@ -4,6 +4,7 @@ const router  = express.Router();
 const mongoose = require('mongoose');
 const Post = require('../models/post');
 const userComments = require('../models/userComment');
+const User = require('../models/user')
 
 // to get all the comments 
 
@@ -20,19 +21,39 @@ router.get('/comments', (req, res, next) => {
 // create a new comment
 router.post('/comments', (req, res, next)=>{
  
-    userComment.create({
+    userComments.create({
       content: req.body.content,
       author: req.user._id,
       post: req.body.post._id
     })
-    .then(response => {Post.findByIdAndUpdate(req.body.post._id, {$push:{ comments: response._id }})
-    .then(theResponse => {
-        res.json(theResponse);
+    .then(response => {
+      Post.findByIdAndUpdate(req.body.post._id, {$push:{ comments: response._id }})
+      .then(() => {
+        User.findByIdAndUpdate(req.user._id, {$push:{ comments: response._id} })
+         .then((theResponse)=> {
+  
+           res.json(theResponse);
+  
+         })
+         
+         .catch(err => {
+           console.log(err)
+           // res.json(err);
+         })
+       
+
+
+
       })
-      .catch(err => {
-        res.json(err);
+      
+      
+      
+      
+      
       })
-  })});
+    })
+ 
+
 
 
   // Need to add a findbyID and update function for the particular post that is being updated!!!!!!!!
@@ -48,7 +69,7 @@ router.post('/comments', (req, res, next)=>{
       return;
     }
 // This funciton below may or may not work as it was written before the comment model 
-    userComment.findById(req.params.id).populate('posts')
+    userComments.findById(req.params.id).populate('posts')
       .then(response => {
         res.json(response);
       })

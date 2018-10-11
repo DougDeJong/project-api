@@ -9,7 +9,7 @@ const User = require('./user');
 const commentSchema = new Schema({
   content: String,
   date: Date,
-  posts: {type: Schema.Types.ObjectId, ref: 'Post'},
+  post: {type: Schema.Types.ObjectId, ref: 'Post'},
   author: {type: Schema.Types.ObjectId, ref: 'User'}
 });
 
